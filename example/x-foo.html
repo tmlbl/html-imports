@@ -1,0 +1,30 @@
+
+<script>
+class XBlink extends HTMLElement {
+  constructor() {
+    super();
+
+    this.attachShadow({ mode: 'open' })
+      .appendChild(document.createElement('slot'));
+  }
+
+  connectedCallback() {
+    this.speed = parseInt(this.getAttribute('speed'));
+    this.speed = isNaN(this.speed) ? 500 : this.speed;
+    this.style.opacity = '1';
+
+    this.interval = setInterval(() => {
+      this.style.opacity = this.style.opacity === '1' ? '0' : '1'
+    }, this.speed);
+  }
+
+  disconnectedCallback() {
+    clearInterval(this.interval);
+  }
+}
+
+customElements.define('x-blink', XBlink);
+
+console.log('x-blink defined')
+
+</script>
